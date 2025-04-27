@@ -10,9 +10,13 @@ $file = Get-Content -Path "./Hello.txt"
 Write-Output "File content: `n"
 Write-Output "$file`n"
 
-Set-Content -Path "./Hello.txt" -Value "Hello, World!"
+if ($file -eq "Hello, World!") {
+    Set-Content -Path "./Hello.txt" -Value "Hello, World"
+} else {
+    Set-Content -Path "./Hello.txt" -Value "Hello, World!"
+}
 
-Start-Sleep 3
+Start-Sleep 2
 
 git status
 git add .
