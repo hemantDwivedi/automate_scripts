@@ -1,0 +1,40 @@
+name: Run Script
+
+on:
+  schedule:
+    - cron: "0 14 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write   # allows pushing changes
+
+jobs:
+  update-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true  # use GITHUB_TOKEN to push
+
+      - name: Write current datetime to Hello.txt
+        run: |
+          mkdir -p "$(dirname Hello.txt)" || true
+          date "+%Y-%m-%d %H:%M:%S" > Hello.txt
+          echo "Writing At: $(cat Hello.txt)"
+
+      - name: Configure git
+        run: |
+          git config user.name "hemantDwivedi"
+          git config user.email "hemantdwiwedi@gmail.com"
+
+      - name: Commit and push if changed
+        run: |
+          git add Hello.txt
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update Hello.txt: $(date '+%Y-%m-%d %H:%M:%S')"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
