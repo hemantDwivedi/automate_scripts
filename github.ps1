@@ -1,26 +1,27 @@
+# Capture start time
 $log_time = Get-Date -Format "HH:mm:ss"
-
 $start_log = "Script started at $log_time`n"
-$end_log = "Script ended at $log_time`n"
+Write-Output $start_log
 
-Write-Output $log
+# Get current datetime
+$currentDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
+# Write into Hello.txt (overwrite with new content)
+Set-Content -Path "./Hello.txt" -Value "Writing At: $currentDate"
+
+# Display file content
 $file = Get-Content -Path "./Hello.txt"
+Write-Output "File content:`n$file`n"
 
-Write-Output "File content: `n"
-Write-Output "$file`n"
-
-if ($file -eq "Hello, World!") {
-    Set-Content -Path "./Hello.txt" -Value "Hello, World"
-} else {
-    Set-Content -Path "./Hello.txt" -Value "Hello, World!"
-}
-
+# Sleep for 2 seconds (simulate work)
 Start-Sleep 2
 
+# Git operations
 git status
 git add .
-git commit -m "Updated Hello.txt with new content"
+git commit -m "Updated Hello.txt with current datetime"
 git push origin main
 
-Write-Output $log
+# Capture end time
+$end_log = "Script ended at $(Get-Date -Format 'HH:mm:ss')`n"
+Write-Output $end_log
