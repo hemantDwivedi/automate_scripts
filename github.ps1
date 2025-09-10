@@ -18,7 +18,7 @@ Start-Sleep 2
 
 # Git operations
 git status
-git add .
+git add Hello.txt
 git commit -m "Updated Hello.txt with current datetime"
 git push origin main
 
